@@ -17,6 +17,8 @@ public interface MessagesRepository extends CrudRepository<Messages, Long> {
 
     public List<Messages> findAllByTopicOrderByCreateAsc(Topics topic);
 
+    public Messages findByTopicAndText(Topics topic, String text);
+
     @Transactional
     public List<Messages> deleteByTopic(Topics topic);
 }

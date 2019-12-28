@@ -113,6 +113,7 @@ public class ForumControllerTest {
     @WithMockUser(username = "user")
     @Test
     public void testTopics() throws Exception {
+        System.out.println("testTopics");
         mvc.perform(MockMvcRequestBuilders.get("/").accept(MediaType.TEXT_HTML)).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("test topic")));
