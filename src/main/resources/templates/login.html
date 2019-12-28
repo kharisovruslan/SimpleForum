@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Simple forum login</title>
+        <link rel="stylesheet" th:href="@{/bootstrap.css}" />
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div class="container-flued">
+            <form th:action="@{/login}" method="post">
+                <div class="row">
+                    <div class="col-md-12"><h1>Login</h1></div>
+                    <div class="col-md-12"><a class="btn-link" href="/register">Register new user</a></div>
+                    <div class="col-md-1"><label for="username">Name</label></div>
+                    <div class="col-md-11"><input type="text" name="username"/></div>
+                    <div class="col-md-1"><label for="password">Password</label></div>
+                    <div class="col-md-11"><input type="password" name="password"/></div>
+                    <div class="col-md-12"><input type="submit" class="btn-info" value="send"/></div>
+                </div>
+            </form>
+        </div>
+        <script type="text/javascript" src="jquery-3.4.1.js"></script>
+        <script type="text/javascript" src="bootstrap.js"></script>
+    </body>
+</html>

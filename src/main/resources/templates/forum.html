@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Simple forum</title>
+        <link rel="stylesheet" th:href="@{/bootstrap.css}" />
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Simple forum topics</h1>
+                <nav>
+                    <div class="col-md-1 pull-left"></div>
+                    <a th:href="@{/profile}"><span sec:authentication="name"></span></a>
+                    <a th:href="@{/logout}">Log out</a>
+                </nav>
+            </header>
+            <main>
+                <form th:action="@{/removetopic}" method="post">
+                    <table class="table table-bordered table-striped table-hover table-sm">
+                        <thead>
+                            <tr class="text-center">
+                                <td>Topic author</td>
+                                <td>Topic title</td>
+                                <td>Date time</td>
+                                <td sec:authorize="hasRole('ROLE_ADMIN')">Remove</td>
+                            </tr>
+                        </thead>
+                        <tr th:each="s, rowstat : ${topics}">
+                            <td class="text-center align-middle"><a th:href="${'/userprofile/' + s.user.id}" th:text="${s.user.username}"></a></td>
+                            <td><a th:href="${'/topic/' + s.id}" th:text="${s.title}"></a></td>
+                            <td class="text-center align-middle"><a th:href="${'/topic/' + s.id}" th:text="${#dates.format(s.create, 'dd-MM-yyyy HH:mm')}"></a></td>
+                            <td class="text-center" sec:authorize="hasRole('ROLE_ADMIN')"><button class="btn btn-danger" name="remove" th:value="${s.id}">X</button></td>
+                        </tr>
+                    </table>
+                </form>
+                <footer>
+                    <form th:action="@{/addtopic}" th:object="${topic}" method="post">
+                        <div class="row">
+                            <div class="form-group col-md-10 pull-left">
+                                <textarea th:field="*{title}" rows="1" cols="50"></textarea>
+                                <small class="dangealert alert-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></small>
+                            </div>
+                            <input type="submit" class="col-md-2 btn btn-primary pull-right" name="Add" value="Add"/>
+                        </div>
+                    </form>
+
+                </footer>
+            </main>
+        </div>
+        <script type="text/javascript" src="jquery-3.4.1.js"></script>
+        <script type="text/javascript" src="bootstrap.js"></script>
+    </body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Simple forum register new user</title>
+        <link rel="stylesheet" th:href="@{/bootstrap.css}" />
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="h1">Registration</h1>
+            <form action="/register" th:object="${registerform}" method="post"
+                  oninput='password.setCustomValidity(password.value != passwordConfirm.value ? "Passwords do not match." : "")'>
+                <div class="form-group">
+                    <label for="username">Login</label>
+                    <input type="text" class="form-control" th:field="*{username}" aria-describedby="usernameHelp" placeholder="Enter you name" required="required"/>
+                    <small class="dangealert alert-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></small>
+                    <small id="usernameHelp" class="form-text text-muted">It name will be used for authorisation</small>
+                </div>
+                <div class="form-group">
+                    <label for="surname">Surname</label>
+                    <input type="text" class="form-control" th:field="*{surname}" aria-describedby="surnameHelp" placeholder="Enter you surname" required="required"/>
+                    <small class="dangealert alert-danger" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></small>
+                    <small id="surnameHelp" class="form-text text-muted">It only for information</small>
+                </div>
+                <div class="form-group">
+                    <label for="firstname">First name</label>
+                    <input type="text" class="form-control" th:field="*{firstname}" aria-describedby="firstnameHelp" placeholder="Enter you first name" required="required"/>
+                    <small class="dangealert alert-danger" th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}"></small>
+                    <small id="firstnameHelp" class="form-text text-muted">It only for information</small>
+                </div>
+                <div class="form-group">
+                    <label for="secondname">Second name</label>
+                    <input type="text" class="form-control" th:field="*{secondname}" aria-describedby="secondnameHelp" placeholder="Enter you second name" required="required"/>
+                    <small class="dangealert alert-danger" th:if="${#fields.hasErrors('secondname')}" th:errors="*{secondname}"></small>
+                    <small id="secondnameHelp" class="form-text text-muted">It only for information</small>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" th:field="*{email}" aria-describedby="emailHelp" placeholder="Enter you email"/>
+                    <small class="dangealert alert-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+                    <small id="emailHelp" class="form-text text-muted">We will be use it only for information you</small>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" th:field="*{password}" aria-describedby="password" placeholder="Enter you password"/>
+                    <small class="dangealert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+                    <small id="passwordHelp" class="form-text text-muted">Please use complex password</small>
+                </div>
+                <div class="form-group">
+                    <label for="passwordConfirm">Confirm password</label>
+                    <input type="password" class="form-control" id="passwordConfirm" aria-describedby="passwordConfirmHelp" placeholder="Confirm you password"/>
+                    <small id="passwordConfirmHelp" class="form-text text-muted">Please confirm password</small>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Register"/>
+            </form>
+        </div>
+        <script type="text/javascript" src="jquery-3.4.1.js"></script>
+        <script type="text/javascript" src="bootstrap.js"></script>
+    </body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Simple forum</title>
+        <link rel="stylesheet" th:href="@{/bootstrap.css}" />
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1 th:text="${'Simple forum ' + topic.title}"></h1>
+                <nav>
+                    <a th:href="@{/}">Topics</a>
+                    <a th:href="@{/profile}"><span sec:authentication="name"></span></a>
+                    <a th:href="@{/logout}">Log out</a>
+                </nav>
+            </header>
+            <main>
+                <form th:action="@{/removemessage}" method="post">
+                    <table class="table table-bordered table-striped table-hover table-sm">
+                        <thead>
+                            <tr class="text-center">
+                                <td>Author</td>
+                                <td>Date time</td>
+                                <td colspan="1" rowspan="2" sec:authorize="hasRole('ROLE_ADMIN')">Remove</td>
+                            </tr>
+                            <tr class="text-center">
+                                <td colspan="3">Message</td>
+                            </tr>
+                        </thead>
+                        <div th:remove="tag" th:each="m, rowstat : ${messages}">
+                            <tr>
+                                <td class="text-center align-middle"><a th:href="${'/userprofile/' + m.user.id}" th:text="${m.user.username}"></a></td>
+                                <td class="text-center align-middle" th:text="${#dates.format(m.create, 'dd-MM-yyyy HH:mm')}"></td>
+                                <td class="text-center" sec:authorize="hasRole('ROLE_ADMIN')"><button class="btn btn-danger" name="remove" th:value="${m.id}">X</button></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <p th:utext="${#strings.replace( #strings.escapeXml(m.text),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></p>
+                                </td>
+                            </tr>
+                        </div>
+                    </table>
+                </form>
+                <footer>
+                    <form th:action="@{/addmessage}" th:object="${message}" method="post">
+                        <div class="row">
+                            <div class="form-group col-md-12 pull-left">
+                                <textarea class="form-control" th:field="*{text}" rows="5" cols="50" placeholder="Write your comment..."></textarea>
+                                <small class="dangealert alert-danger" th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></small>
+                            </div>
+                            <input type="submit" class="col-md-1 btn btn-primary pull-right" name="Add" value="Add"/>
+                            <div class="W-100"></div>
+                        </div>
+                    </form>
+
+                </footer>
+            </main>
+        </div>
+        <script type="text/javascript" src="jquery-3.4.1.js"></script>
+        <script type="text/javascript" src="bootstrap.js"></script>
+    </body>
+</html>
