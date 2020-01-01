@@ -38,8 +38,10 @@ public class UsersController {
 
     @Autowired
     UsersRepository usersRepository;
+
     @Autowired
     UserAuthoritiesRepository userAuthoritiesRepository;
+
     @Autowired
     PasswordEncoder encoder;
 
@@ -51,6 +53,9 @@ public class UsersController {
     @GetMapping("profile")
     public String profile(Model model, Principal principal) {
         Users user = usersRepository.findByUsername(principal.getName());
+        if (user == null) {
+            return "/error";
+        }
         model.addAttribute("user", user);
         model.addAttribute("readonly", false);
         return "profile";

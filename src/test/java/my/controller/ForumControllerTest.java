@@ -41,7 +41,7 @@ import org.springframework.util.MultiValueMap;
  */
 @WebMvcTest(ForumController.class)
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = UsersControllerTest.myConfig.class)
+@ContextConfiguration(classes = TestConfig.class)
 public class ForumControllerTest {
 
     @Autowired
@@ -77,6 +77,9 @@ public class ForumControllerTest {
             usersRepository.save(admin);
             userAuthoritiesRepository.save(new UserAuthorities(user, "ROLE_USER"));
             userAuthoritiesRepository.save(new UserAuthorities(admin, "ROLE_ADMIN"));
+        }
+        if (topicsRepository.count() == 0) {
+            Users user = usersRepository.findByUsername("user");
             topicsRepository.save(new Topics("test topic", new Date(), user));
             Topics removeTopic = new Topics("test topic for remove", new Date(), user);
             topicsRepository.save(removeTopic);
@@ -140,7 +143,6 @@ public class ForumControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(titleTopic)));
         Topics topic = topicsRepository.findAllByTitle(titleTopic);
         mvc.perform(MockMvcRequestBuilders.post("/removetopic").param("remove", Long.toString(topic.getId())).accept(MediaType.TEXT_HTML)).andDo(print())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/"))
                 .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.not(CoreMatchers.containsString(titleTopic))));
     }
 

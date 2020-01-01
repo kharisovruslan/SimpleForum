@@ -43,7 +43,7 @@ import org.springframework.util.MultiValueMap;
  */
 @WebMvcTest(ForumController.class)
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = UsersControllerTest.myConfig.class)
+@ContextConfiguration(classes = TestConfig.class)
 public class ForumMessagesControllerTest {
 
     @Autowired
@@ -87,8 +87,14 @@ public class ForumMessagesControllerTest {
             usersRepository.save(admin);
             userAuthoritiesRepository.save(new UserAuthorities(user, "ROLE_USER"));
             userAuthoritiesRepository.save(new UserAuthorities(admin, "ROLE_ADMIN"));
-            Topics topic = new Topics(topictext, new Date(), user);
-            topicsRepository.save(topic);
+        }
+        if (messagesRepository.count() == 0) {
+            Users user = usersRepository.findByUsername("user");
+            Topics topic = topicsRepository.findAllByTitle(topictext);
+            if (topic == null) {
+                topic = new Topics(topictext, new Date(), user);
+                topicsRepository.save(topic);
+            }
             messagesRepository.save(new Messages(messagetext, topic, new Date(), user));
             messagesRepository.save(new Messages(messagetextForRemove, topic, new Date(), user));
         }
@@ -156,7 +162,6 @@ public class ForumMessagesControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(messagetextForRemove)));
         mvc.perform(MockMvcRequestBuilders.post("/removemessage").param("remove", Long.toString(messageforremove.getId())).flashAttr("topic", topic)
                 .accept(MediaType.TEXT_HTML)).andDo(print())
-                .andExpect(MockMvcResultMatchers.redirectedUrl(topicAddress))
                 .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.not(CoreMatchers.containsString(messagetextForRemove))));
     }
 
