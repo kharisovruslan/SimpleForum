@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
  * @author Kharisov Ruslan
  */
 @Entity
-@Table(name = "UserAuthorities")
+@Table(name = "USER_AUTHORITIES")
 @Component
 @Scope("prototype")
 public class UserAuthorities implements Serializable {

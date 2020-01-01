@@ -14,8 +14,7 @@ import my.data.UserAuthoritiesRepository;
 import my.data.Users;
 import my.data.UsersRepository;
 import org.hamcrest.CoreMatchers;
-import org.junit.After;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +30,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -83,8 +83,16 @@ public class ForumControllerTest {
         }
     }
 
-    @After
-    public void tearDown() {
+    @Test
+    public void authenticationTest() throws Exception {
+        System.out.println("testAuthentication");
+        mvc.perform(MockMvcRequestBuilders.post("/login").param("username", "user").param("password", "12345").accept(MediaType.TEXT_HTML)).andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/"));
+        // test wrong authentication
+        mvc.perform(MockMvcRequestBuilders.post("/login").param("username", "user").param("password", "12345999").accept(MediaType.TEXT_HTML)).andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/login?error"));
     }
 
     /**
