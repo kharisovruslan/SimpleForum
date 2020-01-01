@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
  * @author Kharisov Ruslan
  */
 @Entity
-@Table(name = "Messages")
+@Table(name = "MessagesSF")
 @Component
 @Scope("prototype")
 @Data
@@ -59,6 +59,7 @@ public class Messages implements Serializable {
     @JoinColumn(name = "topic_id")
     private Topics topic;
 
+    @Column(name = "tcreate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date create;
 

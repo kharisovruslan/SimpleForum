@@ -70,8 +70,8 @@ public class ForumMessagesControllerTest {
     @Autowired
     ForumMessagesController forumMessagesController;
 
-    private final String messagetextForRemove = "my message test fot remove";
-    private final String messagetextForNew = "my message test fot new";
+    private final String messagetextForRemove = "my message test for remove";
+    private final String messagetextForNew = "my message test for new";
     private final String messagetext = "my message test";
     private final String topictext = "test topic";
 

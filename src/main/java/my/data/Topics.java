@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
  * @author Kharisov Ruslan
  */
 @Entity
-@Table(name = "Topics")
+@Table(name = "TopicsSF")
 @Component
 @Scope("prototype")
 @Data
@@ -53,6 +53,7 @@ public class Topics implements Serializable {
     private String title;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "tcreate")
     private Date create;
 
     @ManyToOne
